@@ -23,4 +23,5 @@ Specify channel name on line 67
 
 # Usage
 `python3 slackStats.py 01-01-2022` for number of messages in channel on 01-01-2021
+
 `python3 slackStats.py 01-01-2022 01-08-2022` for number of messages in channel between 01-01-2022 and 01-08-2022 (inclusive)
