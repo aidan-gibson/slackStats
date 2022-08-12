@@ -6,14 +6,14 @@ This script counts messages in a Slack channel. Tested with Python 3.9
 * OAuth & Permissions tab > User Token Scopes > Add an OAuth Scope
 
 Add the following scopes:
-channels:history
-channels:read
-groups:history
-groups:read
-im:history
-im:read
-mpim:history
-mpim:read
+* channels:history
+* channels:read
+* groups:history
+* groups:read
+* im:history
+* im:read
+* mpim:history
+* mpim:read
 
 Scroll up and hit "Install to Workspace" > Hit "Allow"
 
