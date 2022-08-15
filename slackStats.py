@@ -9,9 +9,11 @@ from datetime import datetime
 # Import WebClient from Python SDK (github.com/slackapi/python-slack-sdk)
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-
+userToken=""
+channel = "cus-tickets"
 ######################################################################################
 ## Parse input dates
+
 startDateTS = 0
 endDateTS = 0
 exampleString = "Please run command like so: python3 slackStats.py 01-01-2021 OR python3 slackStats.py 01-01-2021 01-08-2021"
@@ -37,7 +39,7 @@ else:
 ###################################################################
 # WebClient instantiates a client that can call API methods
 # When using Bolt, you can use either `app.client` or the `client` passed to listeners.
-client = WebClient(token="")
+client = WebClient(token=userToken)
 logger = logging.getLogger(__name__)
 # logging.basicConfig(level="DEBUG")
 conversations_store = {}
@@ -63,7 +65,7 @@ def save_conversations(conversations):
         # Store the entire conversation object
         conversations_store[conversation_id] = conversation
 
-channel = "general"
+
 channel_id = ""
 fetch_conversations()
 for key in conversations_store:

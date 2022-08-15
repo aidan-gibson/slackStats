@@ -5,11 +5,13 @@ conversations.history has a hidden max of 1000 for the limit parameter; if it's 
 ie if there are 107 messages and I set limit to >1000, it'll tell me there are 100 messages. If I set limit to 1000 it'll tell me there are 107.
 
 ## Boof fix:
-Splitting Each Day into
+Set limit to 1000
+
+Split Each Day into
 0000-1200 (1000 max msgs for this period)
-1200-2359 (100 max msgs for this period)
+1200-2359 (1000 max msgs for this period)
 
-
+MUCH slower as we're sending a bunch of API calls instead of 1, but whatever. Works now.
 
 
 # Setup
@@ -29,9 +31,8 @@ Add the following scopes:
 
 Scroll up and hit "Install to Workspace" > Hit "Allow"
 
-Copy the User OAuth Token, paste into Line 41 double quotes
-
-Specify channel name on line 67
+Copy the User OAuth Token, paste into Line 12 double quotes
+Specify channel name on line 13
 
 # Usage
 `python3 slackStats.py 01-01-2022` for number of messages in channel on 01-01-2021
