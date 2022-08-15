@@ -38,7 +38,7 @@ else:
 
 # WebClient instantiates a client that can call API methods
 # When using Bolt, you can use either `app.client` or the `client` passed to listeners.
-client = WebClient(token="")
+client = WebClient(token="xoxp-3920276120773-3925689939060-3935876797027-590a5c0bc4413e2bcd12a7b5874c92e6")
 logger = logging.getLogger(__name__)
 # logging.basicConfig(level="DEBUG")
 conversations_store = {}
@@ -64,7 +64,7 @@ def save_conversations(conversations):
         # Store the entire conversation object
         conversations_store[conversation_id] = conversation
 
-channel = "cus-tickets"
+channel = "general"
 channel_id = ""
 fetch_conversations()
 for key in conversations_store:
@@ -76,7 +76,7 @@ for key in conversations_store:
 # Store conversation history
 conversation_history = []
 try:
-    result = client.conversations_history(channel=channel_id, limit=1000000, latest=str(endDateTS+1), oldest=str(startDateTS-1), inclusive=True)
+    result = client.conversations_history(channel=channel_id, limit=1000, latest=str(endDateTS+1), oldest=str(startDateTS-1), inclusive=True)
 
     conversation_history = result["messages"]
 

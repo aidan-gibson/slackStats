@@ -1,3 +1,5 @@
+Limitation: only 1000 messages at a time can be read
+
 This script counts messages in a specified Slack channel given a date range. Tested with Python 3.9.
 
 # Setup
