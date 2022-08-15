@@ -1,13 +1,16 @@
-Limitation: only 1000 messages at a time can be read
+This script counts messages in a specified Slack channel given a date range. Tested with Python 3.9.
+# Weird API Limitation
 conversations.history has a hidden max of 1000 for the limit parameter; if it's set to anything above that it resets to default, which is 100. 
 
-ie if there are 107 messages and i set limit to >1000, it'll tell me there are 100 messages. If I set limit to 1000 it'll tell me there are 107.
+ie if there are 107 messages and I set limit to >1000, it'll tell me there are 100 messages. If I set limit to 1000 it'll tell me there are 107.
+
+## Boof fix:
+Splitting Each Day into
+0000-1200 (1000 max msgs for this period)
+1200-2359 (100 max msgs for this period)
 
 
 
-
-
-This script counts messages in a specified Slack channel given a date range. Tested with Python 3.9.
 
 # Setup
 * `pip install -r requirements.txt` to get slack-sdk

@@ -38,11 +38,11 @@ else:
 
 # WebClient instantiates a client that can call API methods
 # When using Bolt, you can use either `app.client` or the `client` passed to listeners.
-client = WebClient(token="xoxp-3920276120773-3925689939060-3935876797027-590a5c0bc4413e2bcd12a7b5874c92e6")
+client = WebClient(token="")
 logger = logging.getLogger(__name__)
 # logging.basicConfig(level="DEBUG")
 conversations_store = {}
-totalMessages=0
+totalTotalMessages=0
 
 def fetch_conversations():
     try:
@@ -72,29 +72,38 @@ for key in conversations_store:
         channel_id =conversations_store[key]["id"]
         # print(channel_id)
 ###########################################################
+def getTotalMsgs(startDateTS, endDateTS):
+    conversation_history = []
+    totalMessages = 0
+    global totalTotalMessages
+    try:
+        result = client.conversations_history(channel=channel_id, limit=1000, latest=str(endDateTS+1), oldest=str(startDateTS-1), inclusive=True)
 
-# Store conversation history
-conversation_history = []
-try:
-    result = client.conversations_history(channel=channel_id, limit=1000, latest=str(endDateTS+1), oldest=str(startDateTS-1), inclusive=True)
+        conversation_history = result["messages"]
 
-    conversation_history = result["messages"]
-
-    # Print results
-    logger.info("{} messages found in {}".format(len(conversation_history), id))
-    # print((len(conversation_history)))
-except SlackApiError as e:
-    logger.error("Error creating conversation: {}".format(e))
-
-
-
-for msg in conversation_history:
-    ticketTime = float(msg["ts"])
-    if ticketTime >= startDateTS and ticketTime<endDateTS:
-        if "subtype" in msg.keys() and msg["subtype"] == "channel_join":
-            totalMessages+=0
-        else:
-            totalMessages+=1
+        # Print results
+        logger.info("{} messages found in {}".format(len(conversation_history), id))
+        # print((len(conversation_history)))
+    except SlackApiError as e:
+        logger.error("Error creating conversation: {}".format(e))
 
 
-print("Total Messages: ",totalMessages)
+
+    for msg in conversation_history:
+        ticketTime = float(msg["ts"])
+        if ticketTime >= startDateTS and ticketTime<endDateTS:
+            if "subtype" in msg.keys() and msg["subtype"] == "channel_join":
+                totalMessages+=0
+            else:
+                totalMessages+=1
+
+    totalTotalMessages= totalTotalMessages+totalMessages
+    # print("Total Messages: ",totalMessages)
+
+
+# def splitter():
+#     global startDateTS, endDateTS
+while ((endDateTS-startDateTS)>=43200): # if range geq 12 hours
+    getTotalMsgs(startDateTS,startDateTS+43200)
+    startDateTS=startDateTS+43200
+print("Total Messages: ",totalTotalMessages)
