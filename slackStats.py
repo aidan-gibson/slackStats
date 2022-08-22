@@ -10,8 +10,8 @@ from datetime import datetime
 # Import WebClient from Python SDK (github.com/slackapi/python-slack-sdk)
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-userToken="xoxp-3920276120773-3925689939060-3927549315879-c55a0663d42dbda195ff7ca5dc45f18b"
-channel = "general"
+userToken=""
+channel = "cus-tickets"
 ######################################################################################
 ## Parse input dates
 
