@@ -1,7 +1,3 @@
-""" Please run command like so:
-python3 slackStats.py 01-01-2021 OR python3 slackStats.py 01-01-2021 01-08-2021
-The second date is inclusive (messages from 01-08-2021 will be included in the previous command)
-"""
 import logging
 import csv
 import argparse
@@ -10,32 +6,13 @@ from datetime import datetime
 # Import WebClient from Python SDK (github.com/slackapi/python-slack-sdk)
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-userToken="xoxp-3920276120773-3925689939060-3927549315879-c55a0663d42dbda195ff7ca5dc45f18b"
-channel = "general"
-######################################################################################
-## Parse input dates
-
-startDateTS = 0
-endDateTS = 0
-exampleString = "Please run command like so: python3 slackStats.py 01-01-2021 OR python3 slackStats.py 01-01-2021 01-08-2021"
-parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument('startDate', nargs='?')
-parser.add_argument('endDate', nargs='?')
-args = parser.parse_args()
-if args.startDate == None:
-    sys.exit("Invalid first date! "+exampleString)
-else:
-    try:
-        startDateTS = datetime.strptime(args.startDate, "%m-%d-%Y").timestamp()
-    except:
-        sys.exit("Invalid first date! "+exampleString)
-if args.endDate == None:
-    endDateTS = startDateTS+86400
-else:
-    try:
-        endDateTS = datetime.strptime(args.endDate, "%m-%d-%Y").timestamp()+86400
-    except:
-        sys.exit("Invalid second date! "+exampleString)
+userToken=""
+channel = "cus-tickets"
+filename='dailyTix.csv'
+fields = ['Date', 'Ticket Count']
+rows = []
+startDateTS = datetime.strptime("07-01-2022", "%m-%d-%Y").timestamp()
+endDateTS = datetime.strptime("08-17-2022", "%m-%d-%Y").timestamp()
 
 ###################################################################
 # WebClient instantiates a client that can call API methods
@@ -99,12 +76,27 @@ def getTotalMsgs(startDateTS, endDateTS):
             else:
                 totalMessages+=1
 
-    totalTotalMessages= totalTotalMessages+totalMessages
+    #TODO add to rows current date and messages from date
+    ts = datetime.fromtimestamp(startDateTS)
+    rows.append([ts.strftime("%m-%d-%Y"),totalMessages])
     # print("Total Messages: ",totalMessages)
 
 
 
-while ((endDateTS-startDateTS)>=43200): # if range geq 12 hours
-    getTotalMsgs(startDateTS,startDateTS+43200)
-    startDateTS=startDateTS+43200
-print("Total Messages: ",totalTotalMessages)
+while ((endDateTS-startDateTS)>=86400): # if range geq 12 hours
+    getTotalMsgs(startDateTS,startDateTS+86400)
+    startDateTS=startDateTS+86400
+# print("Total Messages: ",totalTotalMessages)
+
+# daily ticket count from july 1 thru yesterday (put in csv, seems easiest)
+
+# writing to csv file
+with open(filename, 'w') as csvfile:
+    # creating a csv writer object
+    csvwriter = csv.writer(csvfile)
+
+    # writing the fields
+    csvwriter.writerow(fields)
+
+    # writing the data rows
+    csvwriter.writerows(rows)
