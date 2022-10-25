@@ -1,5 +1,6 @@
 This script counts messages in a specified Slack channel given a date range. Tested with Python 3.9 and 3.10.
 
+
 # Setup
 * `pip install -r requirements.txt` to get slack-sdk
 * Go to api.slack.com/apps, Create New App > From Scratch > Name it anything.
