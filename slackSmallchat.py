@@ -6,14 +6,15 @@ from datetime import datetime
 # Import WebClient from Python SDK (github.com/slackapi/python-slack-sdk)
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-userToken=""
-channel = "cus-tickets"
-filename='dailyTix.csv'
+userToken="" # user oath token
+channel = "cus-smallchat"
+filename='smallchat.csv'
 fields = ['Date', 'Ticket Count']
 rows = []
-startDateTS = datetime.strptime("07-01-2022", "%m-%d-%Y").timestamp()
-endDateTS = datetime.strptime("08-17-2022", "%m-%d-%Y").timestamp()
+startDateTS = datetime.strptime("10-20-2022", "%m-%d-%Y").timestamp()
+endDateTS = datetime.strptime("10-25-2022", "%m-%d-%Y").timestamp()
 endDateTS+=86400
+
 ###################################################################
 # WebClient instantiates a client that can call API methods
 # When using Bolt, you can use either `app.client` or the `client` passed to listeners.
@@ -46,6 +47,7 @@ def save_conversations(conversations):
 
 channel_id = ""
 fetch_conversations()
+
 for key in conversations_store:
     if(conversations_store[key]["name"]==channel):
         channel_id =conversations_store[key]["id"]
@@ -59,7 +61,7 @@ def getTotalMsgs(startDateTS, endDateTS):
         result = client.conversations_history(channel=channel_id, limit=1000, latest=str(endDateTS+1), oldest=str(startDateTS-1), inclusive=True)
 
         conversation_history = result["messages"]
-
+        print(conversation_history)
         # Print results
         logger.info("{} messages found in {}".format(len(conversation_history), id))
         # print((len(conversation_history)))
@@ -73,8 +75,10 @@ def getTotalMsgs(startDateTS, endDateTS):
         if ticketTime >= startDateTS and ticketTime<endDateTS:
             if "subtype" in msg.keys() and msg["subtype"] == "channel_join":
                 totalMessages+=0
-            else:
+            elif "subtype" in msg.keys() and msg["subtype"] == "bot_message" and msg["username"]=="Smallchat":
                 totalMessages+=1
+            else:
+                totalMessages+=0
 
     #TODO add to rows current date and messages from date
     ts = datetime.fromtimestamp(startDateTS)
