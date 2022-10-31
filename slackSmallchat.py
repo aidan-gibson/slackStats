@@ -6,13 +6,13 @@ from datetime import datetime
 # Import WebClient from Python SDK (github.com/slackapi/python-slack-sdk)
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-userToken="" # user oath token
+userToken="" # BOT oath token
 channel = "cus-smallchat"
 filename='smallchat.csv'
 fields = ['Date', 'Ticket Count']
 rows = []
 startDateTS = datetime.strptime("10-20-2022", "%m-%d-%Y").timestamp()
-endDateTS = datetime.strptime("10-25-2022", "%m-%d-%Y").timestamp()
+endDateTS = datetime.strptime("10-26-2022", "%m-%d-%Y").timestamp()
 endDateTS+=86400
 
 ###################################################################
@@ -27,7 +27,7 @@ totalTotalMessages=0
 def fetch_conversations():
     try:
         # Call the conversations.list method using the WebClient
-        result = client.conversations_list()
+        result = client.conversations_list(types="private_channel") #types="public_channel,private_channel" did NOT work
         save_conversations(result["channels"])
 
     except SlackApiError as e:
@@ -61,7 +61,7 @@ def getTotalMsgs(startDateTS, endDateTS):
         result = client.conversations_history(channel=channel_id, limit=1000, latest=str(endDateTS+1), oldest=str(startDateTS-1), inclusive=True)
 
         conversation_history = result["messages"]
-        print(conversation_history)
+        # print(conversation_history)
         # Print results
         logger.info("{} messages found in {}".format(len(conversation_history), id))
         # print((len(conversation_history)))
