@@ -11,9 +11,32 @@ channel = "cus-tickets"
 filename='dailyTix.csv'
 fields = ['Date', 'Ticket Count']
 rows = []
-startDateTS = datetime.strptime("07-01-2022", "%m-%d-%Y").timestamp()
-endDateTS = datetime.strptime("08-17-2022", "%m-%d-%Y").timestamp()
-endDateTS+=86400
+# startDateTS = datetime.strptime("07-01-2022", "%m-%d-%Y").timestamp()
+# endDateTS = datetime.strptime("08-17-2022", "%m-%d-%Y").timestamp()
+# endDateTS+=86400
+## Parse input dates
+
+startDateTS = 0
+endDateTS = 0
+exampleString = "Please run command like so: python3 slackStats.py 01-01-2021 OR python3 slackStats.py 01-01-2021 01-08-2021"
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('startDate', nargs='?')
+parser.add_argument('endDate', nargs='?')
+args = parser.parse_args()
+if args.startDate == None:
+    sys.exit("Invalid first date! "+exampleString)
+else:
+    try:
+        startDateTS = datetime.strptime(args.startDate, "%m-%d-%Y").timestamp()
+    except:
+        sys.exit("Invalid first date! "+exampleString)
+if args.endDate == None:
+    endDateTS = startDateTS+86400
+else:
+    try:
+        endDateTS = datetime.strptime(args.endDate, "%m-%d-%Y").timestamp()+86400
+    except:
+        sys.exit("Invalid second date! "+exampleString)
 ###################################################################
 # WebClient instantiates a client that can call API methods
 # When using Bolt, you can use either `app.client` or the `client` passed to listeners.

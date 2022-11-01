@@ -26,7 +26,11 @@ Specify channel name on line 13
 
 `python3 slackStats.py 01-01-2022 01-08-2022` for number of messages in channel between 01-01-2022 and 01-08-2022 (inclusive)
 
-`python3 slackStatscsv.py` outputs `dailyTix.csv`, counts tickets for every day specified in range in script
+`python3 slackStatscsv.py 01-01-2022 01-08-2022` outputs `dailyTix.csv`, counts tickets for every day specified in range in script
+
+
+
+`python3 slackSmallchat.py 01-01-2022 01-08-2022` outputs `smallchat.csv`
 
 
 
