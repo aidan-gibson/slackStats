@@ -57,3 +57,5 @@ MUCH slower as we're sending a bunch of API calls instead of 1, but whatever. Wo
 The code can definitely be cleaned up in general.
 
 Best thing would be not splitting the days unless a message cap is detected and splitting it even further than two if necessary (fixing the 1000 cap on 12-hr intervals). Eliminating the 0000-1200 & 1200-2359 split where it's unnecessary would p much double the speed (but who cares honestly, this is good enough).
+
+PUT SECRET KEY IN SEPARATE FILE! SET UP FOR THAT
